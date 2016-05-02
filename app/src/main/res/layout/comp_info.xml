@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="15dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="张三"
+        android:id="@+id/txt_prs_name"
+        android:textStyle="bold"
+        android:textSize="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20000101020202123"
+        android:id="@+id/txt_prs_uuid"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="男"
+        android:id="@+id/txt_prs_gender"
+        android:layout_alignTop="@+id/txt_prs_hospital"
+        android:layout_toStartOf="@+id/txt_prs_hospital"
+        android:layout_marginEnd="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="青浦中医院"
+        android:id="@+id/txt_prs_hospital"
+        android:layout_below="@+id/txt_prs_uuid"
+        android:layout_alignEnd="@+id/txt_prs_uuid" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="7帖14包"
+        android:id="@+id/txt_prs_num"
+        android:layout_alignBottom="@+id/txt_prs_name"
+        android:layout_toEndOf="@+id/txt_prs_name"
+        android:layout_marginLeft="10dp" />
+
+</RelativeLayout>
