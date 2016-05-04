@@ -36,6 +36,7 @@ public class ScanActivity extends ActionBarActivity {
         setTitle("处方扫描");
 
         intent.setAction(Intents.Scan.ACTION);
+        intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描处方标签");
         intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
         intent.setClass(ScanActivity.this, CaptureActivity.class);
         startActivityForResult(intent, 200);
@@ -50,9 +51,6 @@ public class ScanActivity extends ActionBarActivity {
                     break;
                 default:
                     Toast.makeText(this, "条码扫描失败，请重试", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent();
-                    intent.setClass(this, ScanActivity.class);
-                    this.startActivity(intent);
                     this.finish();
             }
         } else {
@@ -79,6 +77,15 @@ public class ScanActivity extends ActionBarActivity {
                             switch (process) {
                                 case Constants.CHECK:
                                     intent.setClass(ScanActivity.this, CheckActivity.class);
+                                    break;
+                                case Constants.MIX:
+                                    intent.setClass(ScanActivity.this, MixActivity.class);
+                                    break;
+                                case Constants.MIXCHECK:
+                                    intent.setClass(ScanActivity.this, MixCheckActivity.class);
+                                    break;
+                                case Constants.SOAK:
+                                    intent.setClass(ScanActivity.this, SoakActivity.class);
                                     break;
                             }
                             ScanActivity.this.startActivity(intent);

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.chdp.chdpapp.bean.AuthResult;
+import com.chdp.chdpapp.bean.AppResult;
 import com.chdp.chdpapp.bean.User;
 import com.chdp.chdpapp.service.ServiceGenerator;
 import com.chdp.chdpapp.service.UserService;
@@ -48,12 +48,12 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         UserService service = ServiceGenerator.create(UserService.class);
-        Call<AuthResult> call = service.login(usercode, password);
-        call.enqueue(new Callback<AuthResult>() {
+        Call<AppResult> call = service.login(usercode, password);
+        call.enqueue(new Callback<AppResult>() {
             @Override
-            public void onResponse(Call<AuthResult> call, Response<AuthResult> response) {
+            public void onResponse(Call<AppResult> call, Response<AppResult> response) {
                 if (response.isSuccessful()) {
-                    AuthResult result = response.body();
+                    AppResult result = response.body();
                     if (result.isSuccess()) {
                         afterLogin(result);
                     } else {
@@ -65,13 +65,13 @@ public class LoginActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResult> call, Throwable t) {
+            public void onFailure(Call<AppResult> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "登录失败，请重试", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void afterLogin(final AuthResult result) {
+    private void afterLogin(final AppResult result) {
         UserService service = ServiceGenerator.create(UserService.class, result.getSessionId());
         Call<User> call = service.getUser();
         call.enqueue(new Callback<User>() {

@@ -1,9 +1,8 @@
 package com.chdp.chdpapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -17,8 +16,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chdp.chdpapp.bean.AppResult;
 import com.chdp.chdpapp.bean.Herb;
 import com.chdp.chdpapp.service.HerbService;
+import com.chdp.chdpapp.service.ProcessService;
 import com.chdp.chdpapp.service.ServiceGenerator;
 import com.chdp.chdpapp.util.Constants;
 import com.chdp.chdpapp.util.ContextHolder;
@@ -26,7 +27,9 @@ import com.chdp.chdpapp.util.PrescriptionHelper;
 import com.chdp.chdpapp.util.ProcessHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -102,25 +105,8 @@ public class CheckActivity extends WithProcessActivity {
         txtMelt.setOnClickListener(new SpecialClickListener());
         txtAlone.setOnClickListener(new SpecialClickListener());
 
-        btnCheck.setOnClickListener(new CheckClickListener());
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (null != data && requestCode == 200) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    break;
-                default:
-                    Toast.makeText(this, "条码扫描失败，请重试", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent();
-                    intent.setClass(this, CheckActivity.class);
-                    this.startActivity(intent);
-                    this.finish();
-            }
-        } else {
-            this.finish();
-        }
+        btnCheck.setOnClickListener(new ForwardClickListener());
+        btnCheckCancel.setOnClickListener(new BackwardClickListener());
     }
 
     private void prepareHerbs() {
@@ -287,10 +273,135 @@ public class CheckActivity extends WithProcessActivity {
         }).show();
     }
 
-    private class CheckClickListener implements View.OnClickListener {
+    private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            new AlertDialog.Builder(CheckActivity.this).setMessage("确认完成审方？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final ProgressDialog pd = ProgressDialog.show(CheckActivity.this, "", "处理中...", true);
 
+                            Map<String, String> map = new HashMap<String, String>();
+
+                            map.put("prsId", ((Integer) prescription.getId()).toString());
+                            map.put("procId", ((Integer) presentProc.getId()).toString());
+
+                            if (radioType1.isChecked())
+                                map.put("type", "1");
+                            else if (radioType2.isChecked())
+                                map.put("type", "2");
+                            else if (radioType3.isChecked())
+                                map.put("type", "3");
+
+                            if (checkFirst.isChecked()) {
+                                map.put("checkFirst", "1");
+                                map.put("txtFrist", txtFirst.getText().toString());
+                            } else
+                                map.put("checkFirst", "0");
+
+                            if (checkLater.isChecked()) {
+                                map.put("checkLater", "1");
+                                map.put("txtLater", txtLater.getText().toString());
+                            } else
+                                map.put("checkLater", "0");
+
+                            if (checkWrap.isChecked()) {
+                                map.put("checkWrap", "1");
+                                map.put("txtWrap", txtWrap.getText().toString());
+                            } else
+                                map.put("checkWrap", "0");
+
+                            if (checkDrink.isChecked()) {
+                                map.put("checkDrink", "1");
+                                map.put("txtDrink", txtDrink.getText().toString());
+                            } else
+                                map.put("checkDrink", "0");
+
+                            if (checkMelt.isChecked()) {
+                                map.put("checkMelt", "1");
+                                map.put("txtMelt", txtMelt.getText().toString());
+                            } else
+                                map.put("checkMelt", "0");
+
+                            if (checkAlone.isChecked()) {
+                                map.put("checkAlone", "1");
+                                map.put("txtAlone", txtAlone.getText().toString());
+                            } else
+                                map.put("checkAlone", "0");
+
+                            ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+                            Call<AppResult> call = service.check(map);
+                            call.enqueue(new Callback<AppResult>() {
+                                @Override
+                                public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+                                    if (response.isSuccessful()) {
+                                        AppResult result = response.body();
+                                        if (result.isSuccess()) {
+                                            Toast.makeText(ContextHolder.getContext(), "完成审方成功", Toast.LENGTH_LONG).show();
+                                            CheckActivity.this.finish();
+                                        } else {
+                                            Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(ContextHolder.getContext(), "完成审方失败，请重试", Toast.LENGTH_LONG).show();
+                                    }
+                                    pd.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(Call<AppResult> call, Throwable t) {
+                                    Toast.makeText(ContextHolder.getContext(), "完成审方失败，请重试", Toast.LENGTH_LONG).show();
+                                    pd.dismiss();
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("取消", null).show();
+        }
+    }
+
+    private class BackwardClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CheckActivity.this).setTitle("退回接方原因");
+            final EditText input = new EditText(CheckActivity.this);
+            builder.setView(input);
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    final ProgressDialog pd = ProgressDialog.show(CheckActivity.this, "", "处理中...", true);
+                    if (input.getText().toString().equals("")) {
+                        input.setText("未知原因");
+                    }
+
+                    ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+                    Call<AppResult> call = service.checkCancel(prescription.getId(), presentProc.getId(), input.getText().toString());
+                    call.enqueue(new Callback<AppResult>() {
+                        @Override
+                        public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+                            if (response.isSuccessful()) {
+                                AppResult result = response.body();
+                                if (result.isSuccess()) {
+                                    Toast.makeText(ContextHolder.getContext(), "退回接方成功", Toast.LENGTH_LONG).show();
+                                    CheckActivity.this.finish();
+                                } else {
+                                    Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                Toast.makeText(ContextHolder.getContext(), "退回接方失败，请重试", Toast.LENGTH_LONG).show();
+                            }
+                            pd.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppResult> call, Throwable t) {
+                            Toast.makeText(ContextHolder.getContext(), "退回接方失败，请重试", Toast.LENGTH_LONG).show();
+                            pd.dismiss();
+                        }
+                    });
+                }
+            }).setNegativeButton("取消", null).show();
         }
     }
 }

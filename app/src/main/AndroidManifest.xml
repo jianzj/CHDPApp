@@ -21,12 +21,16 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ScanActivity"></activity>
-        <activity android:name=".CheckActivity"></activity>
+        <activity android:name=".ScanActivity" />
+        <activity android:name=".CheckActivity" />
+        <activity android:name=".MixActivity" />
+        <activity android:name=".MixCheckActivity" />
+        <activity android:name=".SoakActivity"></activity>
     </application>
 
 </manifest>

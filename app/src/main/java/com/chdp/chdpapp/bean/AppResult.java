@@ -1,6 +1,6 @@
 package com.chdp.chdpapp.bean;
 
-public class AuthResult {
+public class AppResult {
 	private boolean success;
 	private String errorMsg;
 	private String sessionId;

@@ -25,11 +25,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="处理人："
+        android:text="\@"
         android:id="@+id/label_proc_user"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/txt_proc_name"
-        android:layout_marginLeft="20dp" />
+        android:layout_toEndOf="@+id/txt_proc_name" />
 
     <TextView
         android:layout_width="wrap_content"
