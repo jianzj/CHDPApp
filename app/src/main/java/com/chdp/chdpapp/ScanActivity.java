@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
+import com.chdp.chdpapp.bean.Order;
 import com.chdp.chdpapp.bean.Prescription;
 import com.chdp.chdpapp.bean.User;
 import com.chdp.chdpapp.bean.UserAuthority;
+import com.chdp.chdpapp.service.OrderService;
 import com.chdp.chdpapp.service.PrescriptionService;
 import com.chdp.chdpapp.service.ServiceGenerator;
 import com.chdp.chdpapp.util.AuthHelper;
@@ -47,7 +49,10 @@ public class ScanActivity extends ActionBarActivity {
         if (null != data && requestCode == 200) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    checkPrescription(data.getStringExtra(Intents.Scan.RESULT));
+                    if (auth.ordinal() != Constants.SHIP)
+                        checkPrescription(data.getStringExtra(Intents.Scan.RESULT));
+                    else
+                        checkOrder(data.getStringExtra(Intents.Scan.RESULT));
                     break;
                 default:
                     Toast.makeText(this, "条码扫描失败，请重试", Toast.LENGTH_LONG).show();
@@ -87,6 +92,18 @@ public class ScanActivity extends ActionBarActivity {
                                 case Constants.SOAK:
                                     intent.setClass(ScanActivity.this, SoakActivity.class);
                                     break;
+                                case Constants.DECOCT:
+                                    intent.setClass(ScanActivity.this, DecoctActivity.class);
+                                    break;
+                                case Constants.POUR:
+                                    intent.setClass(ScanActivity.this, PourActivity.class);
+                                    break;
+                                case Constants.CLEAN:
+                                    intent.setClass(ScanActivity.this, CleanActivity.class);
+                                    break;
+                                case Constants.PACKAGE:
+                                    intent.setClass(ScanActivity.this, PackageActivity.class);
+                                    break;
                             }
                             ScanActivity.this.startActivity(intent);
                         } else {
@@ -103,6 +120,41 @@ public class ScanActivity extends ActionBarActivity {
             @Override
             public void onFailure(Call<Prescription> call, Throwable t) {
                 Toast.makeText(ContextHolder.getContext(), "请求处方信息失败，请重试", Toast.LENGTH_LONG).show();
+                ScanActivity.this.finish();
+            }
+        });
+    }
+
+    private void checkOrder(String uuid) {
+        OrderService service = ServiceGenerator.create(OrderService.class, user.getSession_id());
+        Call<Order> call = service.getOrder(uuid);
+        call.enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                if (response.isSuccessful()) {
+                    Order order = response.body();
+                    if (order == null) {
+                        Toast.makeText(ContextHolder.getContext(), "请求的出库单不存在，请重试", Toast.LENGTH_LONG).show();
+                        ScanActivity.this.finish();
+                    } else {
+                        if (order.getStatus() == Constants.ORDER_BEGIN) {
+                            Intent intent = new Intent();
+                            intent.putExtra("order", order);
+                            intent.setClass(ScanActivity.this, ShipActivity.class);
+                            ScanActivity.this.startActivity(intent);
+                        } else {
+                            Toast.makeText(ContextHolder.getContext(), "出库单已完成出库，请勿重复操作", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                } else {
+                    Toast.makeText(ContextHolder.getContext(), "请求出库单信息失败，请重试", Toast.LENGTH_LONG).show();
+                }
+                ScanActivity.this.finish();
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                Toast.makeText(ContextHolder.getContext(), "请求出库单信息失败，请重试", Toast.LENGTH_LONG).show();
                 ScanActivity.this.finish();
             }
         });

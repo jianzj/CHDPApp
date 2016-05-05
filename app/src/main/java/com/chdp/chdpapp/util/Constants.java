@@ -3,6 +3,10 @@ package com.chdp.chdpapp.util;
 public class Constants {
     public static final String WEB_ROOT = "http://192.168.1.3:8080/CHDPWeb/";
 
+    // These params are for Machine
+    public static final int DECOCTION_MACHINE = 1;
+    public static final int FILLING_MACHINE = 2;
+
     //These params are for Herb
     public static final int DECOCT_FIRST = 1;
     public static final int DECOCT_LATER = 2;
@@ -53,4 +57,7 @@ public class Constants {
                 return "未知";
         }
     }
+
+    public static final int ORDER_BEGIN = 1;
+    public static final int ORDER_FINISH = 2;
 }

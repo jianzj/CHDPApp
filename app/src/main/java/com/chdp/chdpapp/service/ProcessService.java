@@ -37,6 +37,14 @@ public interface ProcessService {
     @FormUrlEncoded
     Call<AppResult> start(@Field("procId") int procId, @Field("proc") int proc);
 
+    @POST("app/process/startWithMachine")
+    @FormUrlEncoded
+    Call<AppResult> startWithMachine(@Field("procId") int procId, @Field("proc") int proc, @Field("machineId") int machineId);
+
+    @POST("app/process/checkAndFinish")
+    @FormUrlEncoded
+    Call<AppResult> checkAndFinish(@Field("procId") int procId);
+
     @POST("app/process/mixcheck")
     @FormUrlEncoded
     Call<AppResult> mixcheck(@Field("prsId") int prsId, @Field("procId") int procId);
@@ -55,7 +63,7 @@ public interface ProcessService {
 
     @POST("app/process/decoct")
     @FormUrlEncoded
-    Call<AppResult> decoct(@Field("prsId") int prsId, @Field("procId") int procId, @Field("machineId") int machineId);
+    Call<AppResult> decoct(@Field("prsId") int prsId, @Field("procId") int procId);
 
     @POST("app/process/decoctCancel")
     @FormUrlEncoded

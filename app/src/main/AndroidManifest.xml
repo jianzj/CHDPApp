@@ -30,7 +30,12 @@
         <activity android:name=".CheckActivity" />
         <activity android:name=".MixActivity" />
         <activity android:name=".MixCheckActivity" />
-        <activity android:name=".SoakActivity"></activity>
+        <activity android:name=".SoakActivity" />
+        <activity android:name=".DecoctActivity" />
+        <activity android:name=".PourActivity" />
+        <activity android:name=".CleanActivity" />
+        <activity android:name=".PackageActivity" />
+        <activity android:name=".ShipActivity"></activity>
     </application>
 
 </manifest>
