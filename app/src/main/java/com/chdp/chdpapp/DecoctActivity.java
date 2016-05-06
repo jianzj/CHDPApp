@@ -182,7 +182,10 @@ public class DecoctActivity extends WithProcessActivity {
     private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            new AlertDialog.Builder(DecoctActivity.this).setMessage("确认完成煎煮？")
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			long now = System.currentTimeMillis();
+			long begin = df.parse(presentProc.getBegin()).getTime();
+            new AlertDialog.Builder(DecoctActivity.this).setMessage("煎煮时长："+Math.ceil((now - begin) / 1000 / 60.0)+"，确认完成？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

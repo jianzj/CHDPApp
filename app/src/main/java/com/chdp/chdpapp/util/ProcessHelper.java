@@ -167,4 +167,58 @@ public class ProcessHelper {
             }
         });
     }
+	
+	public static void setProcessStatusWithTime(final WithProcessActivity activity) {
+        final ProgressDialog pd = ProgressDialog.show(activity, "", "处理中...", true);
+        final TextView txtProcName = (TextView) activity.findViewById(R.id.txt_proc_name);
+        final TextView txtProcUser = (TextView) activity.findViewById(R.id.txt_proc_user);
+        final TextView txtProcStatus = (TextView) activity.findViewById(R.id.txt_proc_status);
+        final TextView labelProcError = (TextView) activity.findViewById(R.id.label_proc_error);
+        final TextView txtProcError = (TextView) activity.findViewById(R.id.txt_proc_error);
+        ProcessService service = ServiceGenerator.create(ProcessService.class, activity.user.getSession_id());
+        Call<List<Process>> call = service.getPresentPreviousProcess(activity.prescription.getId());
+        call.enqueue(new Callback<List<Process>>() {
+            @Override
+            public void onResponse(Call<List<Process>> call, Response<List<Process>> response) {
+                if (response.isSuccessful()) {
+                    List<Process> procs = response.body();
+                    activity.presentProc = procs.get(0);
+                    activity.previousProc = procs.get(1);
+
+                    txtProcName.setText(Constants.getProcessName(activity.previousProc.getProcess_type()));
+                    txtProcUser.setText(activity.previousProc.getUser_name());
+                    if (activity.previousProc.getError_type() == 0) {
+                        txtProcStatus.setText("正常");
+                        txtProcStatus.setTextColor(Color.GREEN);
+                    } else if (activity.previousProc.getError_type() == 1) {
+                        txtProcStatus.setText("手动回退");
+                        txtProcStatus.setTextColor(Color.RED);
+                        labelProcError.setVisibility(View.VISIBLE);
+                        txtProcError.setVisibility(View.VISIBLE);
+                        txtProcError.setText(activity.previousProc.getError_msg());
+                    } else if (activity.previousProc.getError_type() == 2) {
+                        txtProcStatus.setText("错误回退");
+                        txtProcStatus.setTextColor(Color.RED);
+                        labelProcError.setVisibility(View.VISIBLE);
+                        txtProcError.setVisibility(View.VISIBLE);
+                        txtProcError.setText(activity.previousProc.getError_msg());
+                    }
+					
+                    TextView txtCleanTime = (TextView) activity.findViewById(R.id.txt_clean_time);
+                    txtCleanTime.setText(activity.presentProc.getBegin());
+                } else {
+                    Toast.makeText(ContextHolder.getContext(), "获取流程信息失败", Toast.LENGTH_LONG).show();
+                    activity.finish();
+                }
+                pd.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<List<Process>> call, Throwable t) {
+                Toast.makeText(ContextHolder.getContext(), "获取流程信息失败，请后退重试", Toast.LENGTH_LONG).show();
+                activity.finish();
+                pd.dismiss();
+            }
+        });
+    }
 }

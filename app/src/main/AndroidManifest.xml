@@ -35,7 +35,7 @@
         <activity android:name=".PourActivity" />
         <activity android:name=".CleanActivity" />
         <activity android:name=".PackageActivity" />
-        <activity android:name=".ShipActivity"></activity>
+        <activity android:name=".ShipActivity" />
     </application>
 
 </manifest>
