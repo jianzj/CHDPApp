@@ -1,7 +1,31 @@
 package com.chdp.chdpapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.chdp.chdpapp.bean.AppResult;
+import com.chdp.chdpapp.bean.Machine;
+import com.chdp.chdpapp.service.MachineService;
+import com.chdp.chdpapp.service.ProcessService;
+import com.chdp.chdpapp.service.ServiceGenerator;
+import com.chdp.chdpapp.util.Constants;
+import com.chdp.chdpapp.util.ContextHolder;
+import com.chdp.chdpapp.util.PrescriptionHelper;
+import com.chdp.chdpapp.util.ProcessHelper;
+import com.google.zxing.client.android.CaptureActivity;
+import com.google.zxing.client.android.Intents;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PourActivity extends WithProcessActivity {
 	private Button btnPour;
@@ -28,7 +52,7 @@ public class PourActivity extends WithProcessActivity {
         if (null != data && requestCode == 200) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
-                    final ProgressDialog pd = ProgressDialog.show(DecoctActivity.this, "", "处理中...", true);
+                    final ProgressDialog pd = ProgressDialog.show(PourActivity.this, "", "处理中...", true);
 
                     MachineService service = ServiceGenerator.create(MachineService.class, user.getSession_id());
                     Call<Machine> call = service.getMachineByUuidAndType(data.getStringExtra(Intents.Scan.RESULT), Constants.FILLING_MACHINE);
@@ -39,7 +63,7 @@ public class PourActivity extends WithProcessActivity {
                                 Machine machine = response.body();
 
                                 ProcessService service2 = ServiceGenerator.create(ProcessService.class, user.getSession_id());
-								Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId());
+								Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId(), machine.getId());
 								call2.enqueue(new Callback<AppResult>() {
 									@Override
 									public void onResponse(Call<AppResult> call, Response<AppResult> response) {
@@ -97,7 +121,7 @@ public class PourActivity extends WithProcessActivity {
                             intent.setAction(Intents.Scan.ACTION);
                             intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描灌装机标签");
                             intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
-                            intent.setClass(DecoctActivity.this, CaptureActivity.class);
+                            intent.setClass(PourActivity.this, CaptureActivity.class);
                             startActivityForResult(intent, 200);
                         }
                     })

@@ -25,6 +25,9 @@ import com.chdp.chdpapp.util.ProcessHelper;
 import com.google.zxing.client.android.CaptureActivity;
 import com.google.zxing.client.android.Intents;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -182,10 +185,16 @@ public class DecoctActivity extends WithProcessActivity {
     private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			long now = System.currentTimeMillis();
-			long begin = df.parse(presentProc.getBegin()).getTime();
-            new AlertDialog.Builder(DecoctActivity.this).setMessage("煎煮时长："+Math.ceil((now - begin) / 1000 / 60.0)+"，确认完成？")
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long now = System.currentTimeMillis();
+            long begin = 0;
+            try {
+                begin = df.parse(presentProc.getBegin()).getTime();
+            } catch (ParseException e) {
+                Toast.makeText(ContextHolder.getContext(), "获取煎煮时间失败，请重试", Toast.LENGTH_LONG).show();
+                return;
+            }
+            new AlertDialog.Builder(DecoctActivity.this).setMessage("煎煮时长：" + Math.ceil((now - begin) / 1000 / 60.0) + "，确认完成？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

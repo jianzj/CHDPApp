@@ -1,17 +1,37 @@
 package com.chdp.chdpapp;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.chdp.chdpapp.bean.AppResult;
+import com.chdp.chdpapp.service.ProcessService;
+import com.chdp.chdpapp.service.ServiceGenerator;
+import com.chdp.chdpapp.util.ContextHolder;
+import com.chdp.chdpapp.util.PrescriptionHelper;
+import com.chdp.chdpapp.util.ProcessHelper;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CleanActivity extends WithProcessActivity {
-	private Button btnClean;
+    private Button btnClean;
     private Button btnCleanCancel;
-	
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clean);
-		setTitle("清场处理");
+        setTitle("清场处理");
 
         PrescriptionHelper.setPrescriptionBasicInfo(this);
         ProcessHelper.setProcessStatusWithTime(this);
@@ -26,10 +46,16 @@ public class CleanActivity extends WithProcessActivity {
     private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			long now = System.currentTimeMillis();
-			long begin = df.parse(presentProc.getBegin()).getTime();
-            new AlertDialog.Builder(CleanActivity.this).setMessage("清场时长："+Math.ceil((now - begin) / 1000 / 60.0)+"，确认完成？")
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long now = System.currentTimeMillis();
+            long begin = 0;
+            try {
+                begin = df.parse(presentProc.getBegin()).getTime();
+            } catch (ParseException e) {
+                Toast.makeText(ContextHolder.getContext(), "获取清场时间失败，请重试", Toast.LENGTH_LONG).show();
+                return;
+            }
+            new AlertDialog.Builder(CleanActivity.this).setMessage("清场时长：" + Math.ceil((now - begin) / 1000 / 60.0) + "，确认完成？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
