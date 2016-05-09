@@ -17,7 +17,8 @@
         android:layout_alignParentStart="true"
         android:focusable="true"
         android:hint="请输入工号："
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textSize="20dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
         android:layout_alignEnd="@+id/usercode_edit"
         android:inputType="textPassword"
         android:layout_marginBottom="10dp"
-        android:password="true" />
+        android:password="true"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"

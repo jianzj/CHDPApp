@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.chdp.chdpapp.bean.AppResult;
 import com.chdp.chdpapp.service.ProcessService;
 import com.chdp.chdpapp.service.ServiceGenerator;
+import com.chdp.chdpapp.util.Constants;
 import com.chdp.chdpapp.util.ContextHolder;
 import com.chdp.chdpapp.util.PrescriptionHelper;
 import com.chdp.chdpapp.util.ProcessHelper;
@@ -50,6 +51,8 @@ public class MixActivity extends WithProcessActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            final ProgressDialog pd = ProgressDialog.show(MixActivity.this, "", "处理中...", true);
+
                             ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
 							Call<AppResult> call = service.start(presentProc.getId(), Constants.MIX);
 							call.enqueue(new Callback<AppResult>() {

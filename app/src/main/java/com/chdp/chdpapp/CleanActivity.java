@@ -34,7 +34,7 @@ public class CleanActivity extends WithProcessActivity {
         setTitle("清场处理");
 
         PrescriptionHelper.setPrescriptionBasicInfo(this);
-        ProcessHelper.setProcessStatusWithTime(this);
+        ProcessHelper.setProcessStatus(this);
 
         btnClean = (Button) findViewById(R.id.btn_clean);
         btnCleanCancel = (Button) findViewById(R.id.btn_clean_back);

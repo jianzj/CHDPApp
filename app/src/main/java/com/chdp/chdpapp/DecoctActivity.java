@@ -45,7 +45,7 @@ public class DecoctActivity extends WithProcessActivity {
         setTitle("煎煮处理");
 
         PrescriptionHelper.setPrescriptionBasicInfo(this);
-        ProcessHelper.setProcessStatusWithCheck(this);
+        ProcessHelper.setProcessStatus(this);
 
         btnDecoctStart = (Button) findViewById(R.id.btn_decoct_start);
         btnDecoctFinish = (Button) findViewById(R.id.btn_decoct_finish);
@@ -211,8 +211,8 @@ public class DecoctActivity extends WithProcessActivity {
                                             Toast.makeText(ContextHolder.getContext(), "完成煎煮成功", Toast.LENGTH_LONG).show();
                                             DecoctActivity.this.finish();
 											Intent intent = new Intent();
-											prs.setProcess(Constants.POUR);
-											intent.putExtra("prescription", prs);
+											prescription.setProcess(Constants.POUR);
+											intent.putExtra("prescription", prescription);
 											intent.setClass(DecoctActivity.this, PourActivity.class);
 											DecoctActivity.this.startActivity(intent);
                                         } else {

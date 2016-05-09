@@ -38,7 +38,10 @@ public class ScanActivity extends ActionBarActivity {
         setTitle("处方扫描");
 
         intent.setAction(Intents.Scan.ACTION);
-        intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描处方标签");
+        if (auth.ordinal() == Constants.CLEAN)
+            intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描灌装机标签");
+        else
+            intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描处方标签");
         intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
         intent.setClass(ScanActivity.this, CaptureActivity.class);
         startActivityForResult(intent, 200);
@@ -66,10 +69,10 @@ public class ScanActivity extends ActionBarActivity {
     private void checkPrescription(String uuid) {
         PrescriptionService service = ServiceGenerator.create(PrescriptionService.class, user.getSession_id());
         Call<Prescription> call = null;
-		if(auth.ordinal() == Constants.CLEAN)
-			call = service.getPrescriptionByCleanMachineUuid(uuid);
-		else
-			call = service.getPrescription(uuid);
+        if (auth.ordinal() == Constants.CLEAN)
+            call = service.getPrescriptionByCleanMachineUuid(uuid);
+        else
+            call = service.getPrescription(uuid);
         call.enqueue(new Callback<Prescription>() {
             @Override
             public void onResponse(Call<Prescription> call, Response<Prescription> response) {
@@ -123,8 +126,15 @@ public class ScanActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(Call<Prescription> call, Throwable t) {
-                Toast.makeText(ContextHolder.getContext(), "请求处方信息失败，请重试", Toast.LENGTH_LONG).show();
-                ScanActivity.this.finish();
+                if(t instanceof com.google.gson.stream.MalformedJsonException){
+                    Toast.makeText(ContextHolder.getContext(), "登录失效，请注销后重试", Toast.LENGTH_LONG).show();
+                    AuthHelper.resetUser();
+                    getParent().setResult(200);
+                    ScanActivity.this.finish();
+                }else {
+                    Toast.makeText(ContextHolder.getContext(), "请求处方信息失败，请重试", Toast.LENGTH_LONG).show();
+                    ScanActivity.this.finish();
+                }
             }
         });
     }

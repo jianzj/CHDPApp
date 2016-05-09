@@ -1,5 +1,6 @@
 package com.chdp.chdpapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chdp.chdpapp.bean.User;
 import com.chdp.chdpapp.bean.UserAuthority;
@@ -34,6 +36,21 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuHelper.handleMenu(this, menu, user);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (null != data && requestCode == 200) {
+            switch (resultCode) {
+                case Activity.RESULT_OK:
+                    Toast.makeText(this, "登录过期，请注销后重登陆", Toast.LENGTH_LONG).show();
+                    AuthHelper.resetUser();
+                    Intent intent = new Intent();
+                    intent.setClass(this, LoginActivity.class);
+                    this.startActivity(intent);
+                    this.finish();
+            }
+        }
     }
 
     private void generateIcon() {
@@ -70,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
                     Intent intent = new Intent();
                     intent.putExtra("auth", auth);
                     intent.setClass(MainActivity.this, ScanActivity.class);
-                    MainActivity.this.startActivity(intent);
+                    MainActivity.this.startActivityForResult(intent, 200);
                 }
             });
             layout.addView(btn);

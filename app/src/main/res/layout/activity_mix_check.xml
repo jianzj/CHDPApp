@@ -37,13 +37,13 @@
                 android:layout_height="wrap_content"
                 android:text="完成调配审核"
                 android:id="@+id/btn_miccheck"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="16dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp" >
+                android:layout_marginBottom="16dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -53,7 +53,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -65,35 +66,44 @@
                         android:layout_height="wrap_content"
                         android:text="错配"
                         android:id="@+id/check_wrong"
-                        android:layout_toRightOf="@+id/textView4" />
+                        android:layout_toRightOf="@+id/textView4"
+                        android:textSize="20dp" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="漏配"
                         android:id="@+id/check_miss"
-                        android:layout_toRightOf="@+id/textView4" />
+                        android:layout_toRightOf="@+id/textView4"
+                        android:textSize="20dp"
+                        android:layout_marginTop="5dp" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/check_more"
                         android:layout_toRightOf="@+id/textView4"
-                        android:text="多配" />
+                        android:text="多配"
+                        android:textSize="20dp"
+                        android:layout_marginTop="5dp" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/check_dup"
                         android:layout_toRightOf="@+id/textView4"
-                        android:text="重配" />
+                        android:text="重配"
+                        android:textSize="20dp"
+                        android:layout_marginTop="5dp" />
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/check_all"
                         android:layout_toRightOf="@+id/textView4"
-                        android:text="总量不符" />
+                        android:text="总量不符"
+                        android:textSize="20dp"
+                        android:layout_marginTop="5dp" />
 
                 </LinearLayout>
             </LinearLayout>

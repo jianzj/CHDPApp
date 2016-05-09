@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="15dp">
+    android:paddingBottom="16dp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,7 +11,9 @@
         android:text="上一流程："
         android:id="@+id/label_proc_name"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,15 +22,19 @@
         android:id="@+id/txt_proc_name"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/label_proc_name"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\@"
+        android:text="处理人："
         android:id="@+id/label_proc_user"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/txt_proc_name" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="20dp"
+        android:layout_toLeftOf="@+id/txt_proc_user" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,15 +43,19 @@
         android:id="@+id/txt_proc_user"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/label_proc_user" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="状态："
         android:id="@+id/label_proc_status"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/txt_proc_status" />
+        android:textIsSelectable="false"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/label_proc_name"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,17 +63,22 @@
         android:text="正常"
         android:id="@+id/txt_proc_status"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="false"
+        android:textIsSelectable="false"
+        android:textSize="20dp"
+        android:layout_alignTop="@+id/label_proc_status"
+        android:layout_toRightOf="@+id/label_proc_status" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="错误内容："
         android:id="@+id/label_proc_error"
-        android:layout_below="@+id/label_proc_name"
-        android:layout_alignParentStart="true"
+        android:layout_below="@+id/label_proc_status"
+        android:layout_alignParentStart="false"
         android:layout_marginTop="10dp"
+        android:textIsSelectable="false"
+        android:textSize="20dp"
         android:visibility="gone" />
 
     <TextView
@@ -73,6 +88,7 @@
         android:layout_alignTop="@+id/label_proc_error"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/label_proc_error"
+        android:textSize="20dp"
         android:visibility="gone" />
 
 </RelativeLayout>

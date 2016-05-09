@@ -1,10 +1,8 @@
 package com.chdp.chdpapp;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +14,9 @@ import com.chdp.chdpapp.bean.Machine;
 import com.chdp.chdpapp.service.MachineService;
 import com.chdp.chdpapp.service.ProcessService;
 import com.chdp.chdpapp.service.ServiceGenerator;
-import com.chdp.chdpapp.util.Constants;
 import com.chdp.chdpapp.util.ContextHolder;
 import com.chdp.chdpapp.util.PrescriptionHelper;
 import com.chdp.chdpapp.util.ProcessHelper;
-import com.google.zxing.client.android.CaptureActivity;
-import com.google.zxing.client.android.Intents;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +30,7 @@ public class PourActivity extends WithProcessActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pour);
-		setTitle("调配处理");
+		setTitle("灌装处理");
 
         PrescriptionHelper.setPrescriptionBasicInfo(this);
         ProcessHelper.setProcessStatus(this);
@@ -65,7 +60,7 @@ public class PourActivity extends WithProcessActivity {
 										Machine machine = response.body();
 
 										ProcessService service2 = ServiceGenerator.create(ProcessService.class, user.getSession_id());
-										Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId(), machine.getId());
+										Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId(), machine.getPour_machine_id());
 										call2.enqueue(new Callback<AppResult>() {
 											@Override
 											public void onResponse(Call<AppResult> call, Response<AppResult> response) {

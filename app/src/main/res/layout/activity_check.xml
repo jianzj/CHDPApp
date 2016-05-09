@@ -35,7 +35,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -44,7 +44,8 @@
                     android:id="@+id/textView"
                     android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true" />
+                    android:layout_alignParentStart="true"
+                    android:textSize="20dp" />
 
                 <RadioGroup
                     android:id="@+id/radio_group_type"
@@ -63,7 +64,9 @@
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/textView"
                     android:clickable="true"
-                    android:enabled="true" />
+                    android:enabled="true"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="5dp" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -76,7 +79,9 @@
                     android:layout_alignLeft="@+id/radio_type1"
                     android:enabled="true"
                     android:checked="true"
-                    android:clickable="true" />
+                    android:clickable="true"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="5dp" />
 
                 <RadioButton
                     android:layout_width="wrap_content"
@@ -86,7 +91,8 @@
                     android:layout_alignLeft="@+id/radio_type1"
                     android:layout_below="@+id/radio_type2"
                     android:clickable="true"
-                    android:enabled="true" />
+                    android:enabled="true"
+                    android:textSize="20dp" />
                 </RadioGroup>
             </RelativeLayout>
 
@@ -94,7 +100,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,7 +110,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentStart="true"
-                    android:layout_gravity="center_vertical" />
+                    android:layout_gravity="center_vertical"
+                    android:textIsSelectable="false"
+                    android:textSize="20dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -116,14 +124,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/textView2">
+                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_marginBottom="5dp">
 
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="先煎"
                             android:id="@+id/check_first"
-                            android:layout_toRightOf="@+id/textView2" />
+                            android:layout_toRightOf="@+id/textView2"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -133,14 +143,16 @@
                             android:layout_toEndOf="@+id/check_first"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_first"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/textView2">
+                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_marginBottom="5dp">
 
                         <CheckBox
                             android:layout_width="wrap_content"
@@ -148,7 +160,8 @@
                             android:text="后下"
                             android:id="@+id/check_later"
                             android:layout_below="@+id/txt_first"
-                            android:layout_toRightOf="@+id/textView2" />
+                            android:layout_toRightOf="@+id/textView2"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -158,14 +171,16 @@
                             android:layout_toEndOf="@+id/check_later"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_later"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_toRightOf="@+id/textView2">
+                        android:layout_toRightOf="@+id/textView2"
+                        android:layout_marginBottom="5dp">
 
                         <CheckBox
                             android:layout_width="wrap_content"
@@ -173,7 +188,8 @@
                             android:text="包煎"
                             android:id="@+id/check_wrap"
                             android:layout_below="@+id/check_later"
-                            android:layout_toRightOf="@+id/textView2" />
+                            android:layout_toRightOf="@+id/textView2"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -183,13 +199,15 @@
                             android:layout_toEndOf="@+id/check_wrap"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_wrap"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp">
 
                         <CheckBox
                             android:layout_width="wrap_content"
@@ -197,7 +215,8 @@
                             android:text="冲服"
                             android:id="@+id/check_drink"
                             android:layout_below="@+id/check_wrap"
-                            android:layout_toRightOf="@+id/textView2" />
+                            android:layout_toRightOf="@+id/textView2"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -207,7 +226,8 @@
                             android:layout_toEndOf="@+id/check_wrap"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_drink"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -221,7 +241,8 @@
                             android:text="烊化"
                             android:id="@+id/check_melt"
                             android:layout_toRightOf="@+id/textView2"
-                            android:layout_below="@+id/check_drink" />
+                            android:layout_below="@+id/check_drink"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -231,7 +252,8 @@
                             android:layout_toEndOf="@+id/check_wrap"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_melt"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -245,7 +267,8 @@
                             android:text="另煎"
                             android:id="@+id/check_alone"
                             android:layout_toRightOf="@+id/textView2"
-                            android:layout_below="@+id/check_melt" />
+                            android:layout_below="@+id/check_melt"
+                            android:textSize="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -255,7 +278,8 @@
                             android:layout_toEndOf="@+id/check_wrap"
                             android:layout_marginLeft="10dp"
                             android:layout_alignBaseline="@+id/check_alone"
-                            android:layout_marginBottom="10dp" />
+                            android:layout_marginBottom="10dp"
+                            android:textSize="20dp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

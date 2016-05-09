@@ -1,4 +1,4 @@
-package com.chdp.chdpweb.bean;
+package com.chdp.chdpapp.bean;
 
 public class Process {
 
