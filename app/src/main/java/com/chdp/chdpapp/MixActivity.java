@@ -21,7 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MixActivity extends WithProcessActivity {
-    private Button btnMix;
+    private Button btnMixStart;
+    private Button btnMixFinish;;
     private Button btnMixCancel;
 
     @Override
@@ -33,13 +34,53 @@ public class MixActivity extends WithProcessActivity {
         PrescriptionHelper.setPrescriptionBasicInfo(this);
         ProcessHelper.setProcessStatus(this);
 
-        btnMix = (Button) findViewById(R.id.btn_mix);
+		btnMixStart = (Button) findViewById(R.id.btn_mix_start);
+        btnMixFinish = (Button) findViewById(R.id.btn_mix_finish);
         btnMixCancel = (Button) findViewById(R.id.btn_mix_back);
 
-        btnMix.setOnClickListener(new ForwardClickListener());
+		btnMixStart.setOnClickListener(new StartClickListener());
+        btnMixFinish.setOnClickListener(new ForwardClickListener());
         btnMixCancel.setOnClickListener(new BackwardClickListener());
     }
 
+	private class StartClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            new AlertDialog.Builder(MixActivity.this).setMessage("确认开始调配？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+							Call<AppResult> call = service.start(presentProc.getId(), Constants.MIX);
+							call.enqueue(new Callback<AppResult>() {
+								@Override
+								public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+									if (response.isSuccessful()) {
+										AppResult result = response.body();
+										if (result.isSuccess()) {
+											Toast.makeText(ContextHolder.getContext(), "开始调配成功", Toast.LENGTH_LONG).show();
+											MixActivity.this.finish();
+										} else {
+											Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+										}
+									} else {
+										Toast.makeText(ContextHolder.getContext(), "开始调配失败，请重试", Toast.LENGTH_LONG).show();
+									}
+									pd.dismiss();
+								}
+
+								@Override
+								public void onFailure(Call<AppResult> call, Throwable t) {
+									Toast.makeText(ContextHolder.getContext(), "开始调配失败，请重试", Toast.LENGTH_LONG).show();
+									pd.dismiss();
+								}
+							});
+                        }
+                    })
+                    .setNegativeButton("取消", null).show();
+        }
+    }
+	
     private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

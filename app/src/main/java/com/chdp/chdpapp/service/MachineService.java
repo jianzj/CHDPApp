@@ -11,4 +11,8 @@ public interface MachineService {
     @POST("app/machine/getMachineByUuidAndType")
     @FormUrlEncoded
     Call<Machine> getMachineByUuidAndType(@Field("uuid") String uuid, @Field("type") int type);
+	
+	@POST("app/machine/getMachineById")
+    @FormUrlEncoded
+    Call<Machine> getMachineById(@Field("id") int id);
 }

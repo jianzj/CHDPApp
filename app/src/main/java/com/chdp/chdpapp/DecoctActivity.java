@@ -210,6 +210,11 @@ public class DecoctActivity extends WithProcessActivity {
                                         if (result.isSuccess()) {
                                             Toast.makeText(ContextHolder.getContext(), "完成煎煮成功", Toast.LENGTH_LONG).show();
                                             DecoctActivity.this.finish();
+											Intent intent = new Intent();
+											prs.setProcess(Constants.POUR);
+											intent.putExtra("prescription", prs);
+											intent.setClass(DecoctActivity.this, PourActivity.class);
+											DecoctActivity.this.startActivity(intent);
                                         } else {
                                             Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
                                         }

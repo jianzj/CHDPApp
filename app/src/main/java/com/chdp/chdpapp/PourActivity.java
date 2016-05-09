@@ -46,69 +46,6 @@ public class PourActivity extends WithProcessActivity {
         btnPour.setOnClickListener(new ForwardClickListener());
         btnPourCancel.setOnClickListener(new BackwardClickListener());
     }
-	
-	@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (null != data && requestCode == 200) {
-            switch (resultCode) {
-                case Activity.RESULT_OK:
-                    final ProgressDialog pd = ProgressDialog.show(PourActivity.this, "", "处理中...", true);
-
-                    MachineService service = ServiceGenerator.create(MachineService.class, user.getSession_id());
-                    Call<Machine> call = service.getMachineByUuidAndType(data.getStringExtra(Intents.Scan.RESULT), Constants.FILLING_MACHINE);
-                    call.enqueue(new Callback<Machine>() {
-                        @Override
-                        public void onResponse(Call<Machine> call, Response<Machine> response) {
-                            if (response.isSuccessful()) {
-                                Machine machine = response.body();
-
-                                ProcessService service2 = ServiceGenerator.create(ProcessService.class, user.getSession_id());
-								Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId(), machine.getId());
-								call2.enqueue(new Callback<AppResult>() {
-									@Override
-									public void onResponse(Call<AppResult> call, Response<AppResult> response) {
-										if (response.isSuccessful()) {
-											AppResult result = response.body();
-											if (result.isSuccess()) {
-												Toast.makeText(ContextHolder.getContext(), "完成灌装成功", Toast.LENGTH_LONG).show();
-												PourActivity.this.finish();
-											} else {
-												Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
-											}
-										} else {
-											Toast.makeText(ContextHolder.getContext(), "完成灌装失败，请重试", Toast.LENGTH_LONG).show();
-										}
-										pd.dismiss();
-									}
-
-									@Override
-									public void onFailure(Call<AppResult> call, Throwable t) {
-										Toast.makeText(ContextHolder.getContext(), "完成灌装失败，请重试", Toast.LENGTH_LONG).show();
-										pd.dismiss();
-									}
-								});
-
-                            } else {
-                                Toast.makeText(ContextHolder.getContext(), "获取灌装机信息失败，请重试", Toast.LENGTH_LONG).show();
-                                pd.dismiss();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Machine> call, Throwable t) {
-                            Toast.makeText(ContextHolder.getContext(), "获取灌装机信息失败，请重试", Toast.LENGTH_LONG).show();
-                            pd.dismiss();
-                        }
-                    });
-                    break;
-                default:
-                    Toast.makeText(this, "条码扫描失败，请重试", Toast.LENGTH_LONG).show();
-                    this.finish();
-            }
-        } else {
-            this.finish();
-        }
-    }
 
     private class ForwardClickListener implements View.OnClickListener {
         @Override
@@ -117,12 +54,54 @@ public class PourActivity extends WithProcessActivity {
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent();
-                            intent.setAction(Intents.Scan.ACTION);
-                            intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描灌装机标签");
-                            intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
-                            intent.setClass(PourActivity.this, CaptureActivity.class);
-                            startActivityForResult(intent, 200);
+                            final ProgressDialog pd = ProgressDialog.show(PourActivity.this, "", "处理中...", true);
+
+							MachineService service = ServiceGenerator.create(MachineService.class, user.getSession_id());
+							Call<Machine> call = service.getMachineById(previousProc.getMachine_id());
+							call.enqueue(new Callback<Machine>() {
+								@Override
+								public void onResponse(Call<Machine> call, Response<Machine> response) {
+									if (response.isSuccessful()) {
+										Machine machine = response.body();
+
+										ProcessService service2 = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+										Call<AppResult> call2 = service2.pour(prescription.getId(), presentProc.getId(), machine.getId());
+										call2.enqueue(new Callback<AppResult>() {
+											@Override
+											public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+												if (response.isSuccessful()) {
+													AppResult result = response.body();
+													if (result.isSuccess()) {
+														Toast.makeText(ContextHolder.getContext(), "完成灌装成功", Toast.LENGTH_LONG).show();
+														PourActivity.this.finish();
+													} else {
+														Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+													}
+												} else {
+													Toast.makeText(ContextHolder.getContext(), "完成灌装失败，请重试", Toast.LENGTH_LONG).show();
+												}
+												pd.dismiss();
+											}
+
+											@Override
+											public void onFailure(Call<AppResult> call, Throwable t) {
+												Toast.makeText(ContextHolder.getContext(), "完成灌装失败，请重试", Toast.LENGTH_LONG).show();
+												pd.dismiss();
+											}
+										});
+
+									} else {
+										Toast.makeText(ContextHolder.getContext(), "获取灌装机信息失败，请重试", Toast.LENGTH_LONG).show();
+										pd.dismiss();
+									}
+								}
+
+								@Override
+								public void onFailure(Call<Machine> call, Throwable t) {
+									Toast.makeText(ContextHolder.getContext(), "获取灌装机信息失败，请重试", Toast.LENGTH_LONG).show();
+									pd.dismiss();
+								}
+							});
                         }
                     })
                     .setNegativeButton("取消", null).show();

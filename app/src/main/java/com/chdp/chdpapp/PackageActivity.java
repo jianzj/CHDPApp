@@ -125,7 +125,7 @@ public class PackageActivity extends WithProcessActivity {
                     final ProgressDialog pd = ProgressDialog.show(PackageActivity.this, "", "处理中...", true);
                     String reason = "";
                     if (checkLeak.isChecked())
-                        reason += "漏液 ";
+                        reason += "漏液等异装 ";
                     if (checkNum.isChecked())
                         reason += "数量不符 ";
 

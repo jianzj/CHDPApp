@@ -1,4 +1,4 @@
-package com.chdp.chdpapp.bean;
+package com.chdp.chdpweb.bean;
 
 public class Process {
 
@@ -13,6 +13,7 @@ public class Process {
 	private String error_msg;
 	private int previous_process_id;
 	private int machine_id;
+	private String machine_name;
 
 	public int getId() {
 		return id;
@@ -102,4 +103,12 @@ public class Process {
 		this.user_name = user_name;
 	}
 
+	public String getMachine_name() {
+		return machine_name;
+	}
+
+	public void setMachine_name(String machine_name) {
+		this.machine_name = machine_name;
+	}
+	
 }

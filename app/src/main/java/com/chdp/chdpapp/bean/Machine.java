@@ -1,4 +1,4 @@
-package com.chdp.chdpapp.bean;
+package com.chdp.chdpweb.bean;
 
 public class Machine {
 
@@ -6,6 +6,7 @@ public class Machine {
 	private String uuid;
 	private int type;
 	private String name;
+	private int pour_machine_id;
 	private String description;
 
 	public int getId() {
@@ -46,6 +47,14 @@ public class Machine {
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+
+	public int getPour_machine_id() {
+		return pour_machine_id;
+	}
+
+	public void setPour_machine_id(int pour_machine_id) {
+		this.pour_machine_id = pour_machine_id;
 	}
 
 }

@@ -65,7 +65,11 @@ public class ScanActivity extends ActionBarActivity {
 
     private void checkPrescription(String uuid) {
         PrescriptionService service = ServiceGenerator.create(PrescriptionService.class, user.getSession_id());
-        Call<Prescription> call = service.getPrescription(uuid);
+        Call<Prescription> call = null;
+		if(auth.ordinal() == Constants.CLEAN)
+			call = service.getPrescriptionByCleanMachineUuid(uuid);
+		else
+			call = service.getPrescription(uuid);
         call.enqueue(new Callback<Prescription>() {
             @Override
             public void onResponse(Call<Prescription> call, Response<Prescription> response) {

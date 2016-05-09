@@ -110,15 +110,19 @@ public class ProcessHelper {
                     }
 
                     LinearLayout layoutDecoctTime = (LinearLayout) activity.findViewById(R.id.layout_decoct_time);
+					LinearLayout layoutDecoctMachine = (LinearLayout) activity.findViewById(R.id.layout_decoct_machine);
                     TextView txtDecoctTime = (TextView) activity.findViewById(R.id.txt_decoct_time);
+					TextView txtDecoctMachine = (TextView) activity.findViewById(R.id.txt_decoct_machine);
                     Button btnDecoctStart = (Button) activity.findViewById(R.id.btn_decoct_start);
                     Button btnDecoctFinish = (Button) activity.findViewById(R.id.btn_decoct_finish);
                     if (activity.presentProc.getBegin() != null) {
                         btnDecoctStart.setVisibility(View.GONE);
                         txtDecoctTime.setText(activity.presentProc.getBegin());
+						txtDecoctMachine.setText(activity.presentProc.getMachine_name());
                     } else {
                         btnDecoctFinish.setVisibility(View.GONE);
                         layoutDecoctTime.setVisibility(View.GONE);
+						layoutDecoctMachine.setVisibility(View.GONE);
                     }
 
                     if (activity.presentProc.getBegin() == null) {

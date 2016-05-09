@@ -60,7 +60,7 @@
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="漏液"
+                        android:text="漏液等异装"
                         android:id="@+id/check_leak"
                         android:layout_toRightOf="@+id/textView4" />
 

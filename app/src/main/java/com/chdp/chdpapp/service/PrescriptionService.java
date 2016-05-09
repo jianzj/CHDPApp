@@ -11,4 +11,8 @@ public interface PrescriptionService {
     @POST("app/prescription/getPrescription")
     @FormUrlEncoded
     Call<Prescription> getPrescription(@Field("uuid") String uuid);
+	
+	@POST("app/prescription/getPrescriptionByCleanMachineUuid")
+    @FormUrlEncoded
+    Call<Prescription> getPrescriptionByCleanMachineUuid(@Field("uuid") String uuid);
 }

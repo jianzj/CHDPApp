@@ -32,11 +32,18 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true" />
 
+			<Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开始调配"
+                android:id="@+id/btn_mix_start"
+                android:layout_marginBottom="10dp" />
+				
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="完成调配"
-                android:id="@+id/btn_mix"
+                android:id="@+id/btn_mix_finish"
                 android:layout_marginBottom="10dp" />
 
             <Button
