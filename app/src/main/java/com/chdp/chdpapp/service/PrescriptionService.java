@@ -12,7 +12,7 @@ public interface PrescriptionService {
     @FormUrlEncoded
     Call<Prescription> getPrescription(@Field("uuid") String uuid);
 	
-	@POST("app/prescription/getPrescriptionByCleanMachineUuid")
+	@POST("app/prescription/getPrescriptionByPourMachineUuid")
     @FormUrlEncoded
-    Call<Prescription> getPrescriptionByCleanMachineUuid(@Field("uuid") String uuid);
+    Call<Prescription> getPrescriptionByPourMachineUuid(@Field("uuid") String uuid);
 }

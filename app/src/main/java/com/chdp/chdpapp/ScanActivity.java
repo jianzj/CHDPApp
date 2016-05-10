@@ -70,7 +70,7 @@ public class ScanActivity extends ActionBarActivity {
         PrescriptionService service = ServiceGenerator.create(PrescriptionService.class, user.getSession_id());
         Call<Prescription> call = null;
         if (auth.ordinal() == Constants.CLEAN)
-            call = service.getPrescriptionByCleanMachineUuid(uuid);
+            call = service.getPrescriptionByPourMachineUuid(uuid);
         else
             call = service.getPrescription(uuid);
         call.enqueue(new Callback<Prescription>() {
