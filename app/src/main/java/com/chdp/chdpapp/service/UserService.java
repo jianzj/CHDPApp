@@ -13,6 +13,10 @@ public interface UserService {
     @POST("app/user/login")
     @FormUrlEncoded
     Call<AppResult> login(@Field("usercode") String usercode, @Field("password") String password);
+	
+	@POST("app/user/changePassword")
+    @FormUrlEncoded
+    Call<AppResult> changePassword(@Field("oldPassword") String oldPassword, @Field("newPassword") String newPassword);
 
     @GET("app/user/getUser")
     Call<User> getUser();
