@@ -21,7 +21,17 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        user = AuthHelper.checkUser(this);
+        if (user == null)
+            return;
 
+        setTitle("当前用户：" + user.getName());
+        generateIcon();
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
         user = AuthHelper.checkUser(this);
         if (user == null)
             return;
@@ -40,6 +50,7 @@ public class MainActivity extends ActionBarActivity {
         LinearLayout layout = (LinearLayout) findViewById(R.id.layout_main);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 0, 10, 0);
+        layout.removeAllViews();
         for (final UserAuthority auth : user.getAuthorityList()) {
             if (auth == UserAuthority.ADMIN || auth == UserAuthority.RECEIVE)
                 continue;

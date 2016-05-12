@@ -3,6 +3,7 @@ package com.chdp.chdpapp.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.chdp.chdpapp.LoginActivity;
 import com.chdp.chdpapp.bean.User;
@@ -57,7 +58,7 @@ public final class AuthHelper {
             Intent intent = new Intent();
             intent.setClass(activity, LoginActivity.class);
             activity.startActivity(intent);
-            activity.finish();
+            Toast.makeText(ContextHolder.getContext(), "登录失效，请重新登录", Toast.LENGTH_LONG).show();
         }
         return user;
     }

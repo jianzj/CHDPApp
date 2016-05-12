@@ -127,7 +127,6 @@ public class ScanActivity extends ActionBarActivity {
             @Override
             public void onFailure(Call<Prescription> call, Throwable t) {
                 if(t instanceof com.google.gson.stream.MalformedJsonException){
-                    Toast.makeText(ContextHolder.getContext(), "登录失效，请注销后重试", Toast.LENGTH_LONG).show();
                     AuthHelper.resetUser();
                     ScanActivity.this.finish();
                 }else {

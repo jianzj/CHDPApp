@@ -1,6 +1,5 @@
 package com.chdp.chdpapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -9,11 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chdp.chdpapp.bean.AppResult;
-import com.chdp.chdpapp.bean.User;
 import com.chdp.chdpapp.service.ServiceGenerator;
 import com.chdp.chdpapp.service.UserService;
-import com.chdp.chdpapp.util.AuthHelper;
-import com.chdp.chdpapp.util.ContextHolder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +25,7 @@ public class ChangePasswordActivity extends ActionBarActivity {
 
         final EditText editOldPassword = (EditText) findViewById(R.id.edit_old_password);
         final EditText editNewPassword = (EditText) findViewById(R.id.edit_new_password);
-		EditText editRePassword = (EditText) findViewById(R.id.edit_re_password);
+        final EditText editRePassword = (EditText) findViewById(R.id.edit_re_password);
         Button btnChangePassword = (Button) findViewById(R.id.btn_change_password);
 
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -37,12 +33,12 @@ public class ChangePasswordActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String oldPassword = editOldPassword.getText().toString();
                 String newPassword = editNewPassword.getText().toString();
-				String rePassword = editRePassword.getText().toString();
-				if(!newPassword.equals(rePassword)){
-					Toast.makeText(ChangePasswordActivity.this, "两次密码输入不一致", Toast.LENGTH_LONG).show();
-				}else{
-					changePassword(usercode, password);
-				}
+                String rePassword = editRePassword.getText().toString();
+                if (!newPassword.equals(rePassword)) {
+                    Toast.makeText(ChangePasswordActivity.this, "两次密码输入不一致", Toast.LENGTH_LONG).show();
+                } else {
+                    changePassword(oldPassword, newPassword);
+                }
             }
         });
     }
@@ -57,7 +53,7 @@ public class ChangePasswordActivity extends ActionBarActivity {
                     AppResult result = response.body();
                     if (result.isSuccess()) {
                         Toast.makeText(ChangePasswordActivity.this, "修改密码成功", Toast.LENGTH_LONG).show();
-						ChangePasswordActivity.this.finish();
+                        ChangePasswordActivity.this.finish();
                     } else {
                         Toast.makeText(ChangePasswordActivity.this, result.getErrorMsg(), Toast.LENGTH_LONG).show();
                     }
@@ -68,7 +64,7 @@ public class ChangePasswordActivity extends ActionBarActivity {
 
             @Override
             public void onFailure(Call<AppResult> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, "修改密码失败，请重试", Toast.LENGTH_LONG).show();
+                Toast.makeText(ChangePasswordActivity.this, "修改密码失败，请重试", Toast.LENGTH_LONG).show();
             }
         });
     }

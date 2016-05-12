@@ -1,6 +1,5 @@
 package com.chdp.chdpapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -81,9 +80,6 @@ public class LoginActivity extends ActionBarActivity {
                     User user = response.body();
                     user.setSession_id(result.getSessionId());
                     AuthHelper.setUser(user);
-                    Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(intent);
                     LoginActivity.this.finish();
                 } else {
                     Toast.makeText(ContextHolder.getContext(), "请求用户信息失败，请重新登录", Toast.LENGTH_LONG).show();

@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.chdp.chdpapp.ChangePasswordActivity;
 import com.chdp.chdpapp.LoginActivity;
 import com.chdp.chdpapp.R;
 import com.chdp.chdpapp.bean.User;
@@ -34,7 +35,6 @@ public class MenuHelper {
                             Intent intent = new Intent();
                             intent.setClass(activity, LoginActivity.class);
                             activity.startActivity(intent);
-                            activity.finish();
                         } else {
                             Toast.makeText(ContextHolder.getContext(), "注销失败，请重试", Toast.LENGTH_LONG).show();
                         }
@@ -55,6 +55,8 @@ public class MenuHelper {
                 Intent intent = new Intent();
                 intent.setClass(activity, ChangePasswordActivity.class);
                 activity.startActivity(intent);
+
+                return true;
             }
         });
     }
