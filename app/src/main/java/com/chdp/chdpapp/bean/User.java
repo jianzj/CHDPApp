@@ -12,7 +12,6 @@ public class User {
     @SuppressWarnings("unused")
     private String authority_str;
     private String session_id;
-    private String last_outer_id;
 
     public int getId() {
         return id;
@@ -52,14 +51,6 @@ public class User {
 
     public void setAuthority(int authority) {
         this.authority = authority;
-    }
-
-    public String getLast_outer_id() {
-        return last_outer_id;
-    }
-
-    public void setLast_outer_id(String last_outer_id) {
-        this.last_outer_id = last_outer_id;
     }
 
     public String getSession_id() {
