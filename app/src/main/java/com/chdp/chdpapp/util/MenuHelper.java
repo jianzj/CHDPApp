@@ -48,5 +48,14 @@ public class MenuHelper {
                 return true;
             }
         });
+		
+		menu.findItem(R.id.menu_change_password).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent();
+                intent.setClass(activity, ChangePasswordActivity.class);
+                activity.startActivity(intent);
+            }
+        });
     }
 }

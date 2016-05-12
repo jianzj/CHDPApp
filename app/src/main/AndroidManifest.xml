@@ -36,6 +36,7 @@
         <activity android:name=".CleanActivity" />
         <activity android:name=".PackageActivity" />
         <activity android:name=".ShipActivity" />
+		<activity android:name=".ChangePasswordActivity" />
     </application>
 
 </manifest>
