@@ -18,25 +18,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ScanActivity" />
-        <activity android:name=".CheckActivity" />
-        <activity android:name=".MixActivity" />
-        <activity android:name=".MixCheckActivity" />
-        <activity android:name=".SoakActivity" />
-        <activity android:name=".DecoctActivity" />
-        <activity android:name=".PourActivity" />
-        <activity android:name=".CleanActivity" />
-        <activity android:name=".PackageActivity" />
-        <activity android:name=".ShipActivity" />
-		<activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ScanActivity" android:screenOrientation="portrait" />
+        <activity android:name=".CheckActivity" android:screenOrientation="portrait" />
+        <activity android:name=".MixActivity" android:screenOrientation="portrait" />
+        <activity android:name=".MixCheckActivity" android:screenOrientation="portrait" />
+        <activity android:name=".SoakActivity" android:screenOrientation="portrait" />
+        <activity android:name=".DecoctActivity" android:screenOrientation="portrait" />
+        <activity android:name=".PourActivity" android:screenOrientation="portrait" />
+        <activity android:name=".CleanActivity" android:screenOrientation="portrait" />
+        <activity android:name=".PackageActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ShipActivity" android:screenOrientation="portrait" />
+		<activity android:name=".ChangePasswordActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

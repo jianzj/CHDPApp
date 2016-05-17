@@ -1,7 +1,7 @@
 package com.chdp.chdpapp.util;
 
 public class Constants {
-    public static final String WEB_ROOT = "http://192.168.1.3:8080/CHDPWeb/";
+    public static final String WEB_ROOT = "http://192.168.188.227:8080/CHDPWeb/";
 
     // These params are for Machine
     public static final int DECOCTION_MACHINE = 1;

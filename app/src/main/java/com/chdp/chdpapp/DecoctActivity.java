@@ -246,7 +246,6 @@ public class DecoctActivity extends WithProcessActivity {
                             Intent intent = new Intent();
                             intent.setAction(Intents.Scan.ACTION);
                             intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描煎煮机标签");
-                            intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
                             intent.setClass(DecoctActivity.this, CaptureActivity.class);
                             startActivityForResult(intent, 200);
                         }

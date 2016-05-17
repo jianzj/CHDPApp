@@ -42,7 +42,6 @@ public class ScanActivity extends ActionBarActivity {
             intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描灌装机标签");
         else
             intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描处方标签");
-        intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
         intent.setClass(ScanActivity.this, CaptureActivity.class);
         startActivityForResult(intent, 200);
     }

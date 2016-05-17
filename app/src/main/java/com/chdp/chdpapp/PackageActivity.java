@@ -106,7 +106,6 @@ public class PackageActivity extends WithProcessActivity {
                             Intent intent = new Intent();
                             intent.setAction(Intents.Scan.ACTION);
                             intent.putExtra(Intents.Scan.PROMPT_MESSAGE, "请扫描包装标签");
-                            intent.putExtra(Intents.Scan.SAVE_HISTORY, false);
                             intent.setClass(PackageActivity.this, CaptureActivity.class);
                             startActivityForResult(intent, 200);
                         }
