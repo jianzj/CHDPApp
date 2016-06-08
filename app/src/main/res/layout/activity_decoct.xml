@@ -238,7 +238,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="开始时间"
+                    android:text="煎煮开始"
                     android:layout_marginRight="10dp"
                     android:textSize="20dp" />
 
@@ -250,8 +250,31 @@
                     android:id="@+id/txt_decoct_time"
                     android:textSize="20dp" />
             </LinearLayout>
-			
-			<LinearLayout
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/layout_middle_time" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="保温开始"
+                    android:layout_marginRight="10dp"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=""
+                    android:id="@+id/txt_middle_time"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -279,6 +302,13 @@
                 android:layout_height="wrap_content"
                 android:text="开始煎煮"
                 android:id="@+id/btn_decoct_start"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开始保温"
+                android:id="@+id/btn_decoct_middle"
                 android:layout_marginBottom="10dp" />
 
             <Button

@@ -1,7 +1,10 @@
 package com.chdp.chdpapp.util;
 
 public class Constants {
+    public static final String VERSION = "1.0";
     public static final String WEB_ROOT = "http://192.168.188.227:8080/CHDPWeb/";
+    //public static final String WEB_ROOT = "http://192.168.61.110:8080/CHDPWeb/";
+    //public static final String WEB_ROOT = "http://192.168.1.102:8080/CHDPWeb/";
 
     // These params are for Machine
     public static final int DECOCTION_MACHINE = 1;
@@ -11,6 +14,24 @@ public class Constants {
     public static final int DECOCT_FIRST = 1;
     public static final int DECOCT_LATER = 2;
     public static final int WRAPPED_DECOCT = 3;
+
+    // 煎药类型
+    public static final int DECOCT_ONE = 1;
+    public static final int DECOCT_TWO = 2;
+    public static final int DECOCT_THREE = 3;
+
+    public static int getHeatTime(int decoct_type) {
+        switch (decoct_type) {
+            case DECOCT_ONE:
+                return 20;
+            case DECOCT_TWO:
+                return 30;
+            case DECOCT_THREE:
+                return 40;
+            default:
+                return 30;
+        }
+    }
 
     //These params are for Sex
     public static final int MAN = 1;

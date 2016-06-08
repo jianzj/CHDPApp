@@ -65,6 +65,10 @@ public interface ProcessService {
     @FormUrlEncoded
     Call<AppResult> decoct(@Field("prsId") int prsId, @Field("procId") int procId);
 
+    @POST("app/process/middle")
+    @FormUrlEncoded
+    Call<AppResult> middle(@Field("procId") int procId);
+
     @POST("app/process/decoctCancel")
     @FormUrlEncoded
     Call<AppResult> decoctCancel(@Field("prsId") int prsId, @Field("procId") int procId, @Field("reason") String reason);

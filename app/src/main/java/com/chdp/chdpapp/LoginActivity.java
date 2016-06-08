@@ -19,16 +19,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends ActionBarActivity {
+    private EditText usercodeEdit;
+    private EditText passwordEdit;
+    private Button loginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setTitle("用户登录");
+    }
 
-        final EditText usercodeEdit = (EditText) findViewById(R.id.usercode_edit);
-        final EditText passwordEdit = (EditText) findViewById(R.id.password_edit);
-        Button loginBtn = (Button) findViewById(R.id.login_btn);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        usercodeEdit = (EditText) findViewById(R.id.usercode_edit);
+        passwordEdit = (EditText) findViewById(R.id.password_edit);
+        loginBtn = (Button) findViewById(R.id.login_btn);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

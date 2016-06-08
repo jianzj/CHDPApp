@@ -4,15 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chdp.chdpapp.bean.User;
 import com.chdp.chdpapp.bean.UserAuthority;
+import com.chdp.chdpapp.service.ServiceGenerator;
+import com.chdp.chdpapp.service.UserService;
 import com.chdp.chdpapp.util.AuthHelper;
-import com.chdp.chdpapp.util.MenuHelper;
+import com.chdp.chdpapp.util.ContextHolder;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends ActionBarActivity {
     private User user;
@@ -21,16 +29,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        user = AuthHelper.checkUser(this);
-        if (user == null)
-            return;
-
-        setTitle("当前用户：" + user.getName());
-        generateIcon();
     }
 
     @Override
-    protected  void onResume(){
+    protected void onResume() {
         super.onResume();
         user = AuthHelper.checkUser(this);
         if (user == null)
@@ -42,7 +44,42 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuHelper.handleMenu(this, menu, user);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.menu_logout:
+                UserService service = ServiceGenerator.create(UserService.class, user.getSession_id());
+                Call<Void> call = service.logout();
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            AuthHelper.resetUser();
+                            Intent intent = new Intent();
+                            intent.setClass(MainActivity.this, LoginActivity.class);
+                            MainActivity.this.startActivity(intent);
+                        } else {
+                            Toast.makeText(ContextHolder.getContext(), "注销失败，请重试", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(ContextHolder.getContext(), "注销失败，请重试", Toast.LENGTH_LONG).show();
+                    }
+                });
+                break;
+            case R.id.menu_change_password:
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, ChangePasswordActivity.class);
+                MainActivity.this.startActivity(intent);
+                break;
+        }
         return true;
     }
 

@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="退回煎煮"
-                android:id="@+id/btn_pour_back" />
+                android:id="@+id/btn_pour_back"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 	

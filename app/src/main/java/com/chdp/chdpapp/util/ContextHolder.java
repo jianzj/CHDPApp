@@ -1,7 +1,13 @@
 package com.chdp.chdpapp.util;
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.SystemClock;
+
+import com.chdp.chdpapp.AlarmReceiver;
 
 public class ContextHolder {
     private final ContextHolder self = this;
@@ -39,5 +45,16 @@ public class ContextHolder {
             throw new IllegalStateException("ContextHolder is not initialed, it is recommend to init with application context.");
         }
         return ApplicationContext;
+    }
+
+    public static void setAlarm(int id, int minutes, String title, String msg) {
+        AlarmManager manager = (AlarmManager) ApplicationContext.getSystemService(ApplicationContext.ALARM_SERVICE);
+        long triggerAtTime = SystemClock.elapsedRealtime() + minutes * 60 * 1000;
+        Intent i = new Intent(ApplicationContext, AlarmReceiver.class);
+        i.putExtra("id", id);
+        i.putExtra("title", title);
+        i.putExtra("msg", msg);
+        PendingIntent pi = PendingIntent.getBroadcast(ApplicationContext, 0, i, 0);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
     }
 }

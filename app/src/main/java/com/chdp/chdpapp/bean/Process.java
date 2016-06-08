@@ -5,6 +5,7 @@ public class Process {
 	private int id;
 	private int process_type;
 	private String begin;
+	private String middle;
 	private String finish;
 	private int user_id;
 	private String user_name;
@@ -37,6 +38,14 @@ public class Process {
 
 	public void setBegin(String begin) {
 		this.begin = begin;
+	}
+
+	public String getMiddle() {
+		return middle;
+	}
+
+	public void setMiddle(String middle) {
+		this.middle = middle;
 	}
 
 	public String getFinish() {

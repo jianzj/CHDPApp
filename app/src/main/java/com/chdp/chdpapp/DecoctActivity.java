@@ -34,6 +34,7 @@ import retrofit2.Response;
 
 public class DecoctActivity extends WithProcessActivity {
     private Button btnDecoctStart;
+    private Button btnDecoctMiddle;
     private Button btnDecoctFinish;
     private Button btnDecoctCancel;
 
@@ -48,10 +49,12 @@ public class DecoctActivity extends WithProcessActivity {
         ProcessHelper.setProcessStatus(this);
 
         btnDecoctStart = (Button) findViewById(R.id.btn_decoct_start);
+        btnDecoctMiddle = (Button) findViewById(R.id.btn_decoct_middle);
         btnDecoctFinish = (Button) findViewById(R.id.btn_decoct_finish);
         btnDecoctCancel = (Button) findViewById(R.id.btn_decoct_cancel);
 
         btnDecoctStart.setOnClickListener(new StartClickListener());
+        btnDecoctMiddle.setOnClickListener(new MiddleClickListener());
         btnDecoctFinish.setOnClickListener(new ForwardClickListener());
         btnDecoctCancel.setOnClickListener(new BackwardClickListener());
 
@@ -59,13 +62,13 @@ public class DecoctActivity extends WithProcessActivity {
         TextView txtParam = (TextView) findViewById(R.id.txt_param);
         if (prescription.getClass_of_medicines() == 1) {
             txtType.setText("解表或芳香类药");
-            txtParam.setText("温度105℃-110℃，压力<0.1MPa，保温时间20分钟");
+            txtParam.setText("温度110℃，压力<0.1MPa，保温时间20分钟");
         } else if (prescription.getClass_of_medicines() == 2) {
             txtType.setText("一般治疗药");
-            txtParam.setText("温度110℃-115℃，压力<0.1MPa，保温时间30分钟");
+            txtParam.setText("温度115℃，压力<0.1MPa，保温时间30分钟");
         } else if (prescription.getClass_of_medicines() == 3) {
             txtType.setText("调理滋补药");
-            txtParam.setText("温度115℃-120℃，压力<0.1MPa，保温时间40分钟");
+            txtParam.setText("温度120℃，压力<0.1MPa，保温时间40分钟");
         }
 
         LinearLayout layoutFirst = (LinearLayout) findViewById(R.id.layout_first);
@@ -131,7 +134,7 @@ public class DecoctActivity extends WithProcessActivity {
                         @Override
                         public void onResponse(Call<Machine> call, Response<Machine> response) {
                             if (response.isSuccessful()) {
-                                Machine machine = response.body();
+                                final Machine machine = response.body();
 
                                 ProcessService service2 = ServiceGenerator.create(ProcessService.class, user.getSession_id());
                                 Call<AppResult> call2 = service2.startWithMachine(presentProc.getId(), Constants.DECOCT, machine.getId());
@@ -142,6 +145,7 @@ public class DecoctActivity extends WithProcessActivity {
                                             AppResult result = response.body();
                                             if (result.isSuccess()) {
                                                 Toast.makeText(ContextHolder.getContext(), "开始煎煮成功", Toast.LENGTH_LONG).show();
+                                                ContextHolder.setAlarm(prescription.getId(), 8, "升温完成提醒", "煎煮机：" + machine.getName() + "接近完成升温过程，请查看并处理");
                                                 DecoctActivity.this.finish();
                                             } else {
                                                 Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
@@ -187,14 +191,20 @@ public class DecoctActivity extends WithProcessActivity {
         public void onClick(View v) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             long now = System.currentTimeMillis();
-            long begin = 0;
+            long middle = 0;
             try {
-                begin = df.parse(presentProc.getBegin()).getTime();
+                middle = df.parse(presentProc.getMiddle()).getTime();
             } catch (ParseException e) {
-                Toast.makeText(ContextHolder.getContext(), "获取煎煮时间失败，请重试", Toast.LENGTH_LONG).show();
+                Toast.makeText(ContextHolder.getContext(), "获取开始保温时间失败，请重试", Toast.LENGTH_LONG).show();
                 return;
             }
-            new AlertDialog.Builder(DecoctActivity.this).setMessage("煎煮时长：" + Math.ceil((now - begin) / 1000 / 60.0) + "，确认完成？")
+            long interval = now - middle - Constants.getHeatTime(prescription.getClass_of_medicines()) * 60 * 1000;
+            if (interval < 0) {
+                Toast.makeText(ContextHolder.getContext(), "保温时间不符合要求，请等待" + Math.ceil(-interval / 1000 / 60) + "分钟后重试", Toast.LENGTH_LONG).show();
+                DecoctActivity.this.finish();
+                return;
+            }
+            new AlertDialog.Builder(DecoctActivity.this).setMessage("保温时长：" + Math.ceil((now - middle) / 1000 / 60.0) + "分钟，确认完成？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -210,11 +220,11 @@ public class DecoctActivity extends WithProcessActivity {
                                         if (result.isSuccess()) {
                                             Toast.makeText(ContextHolder.getContext(), "完成煎煮成功", Toast.LENGTH_LONG).show();
                                             DecoctActivity.this.finish();
-											Intent intent = new Intent();
-											prescription.setProcess(Constants.POUR);
-											intent.putExtra("prescription", prescription);
-											intent.setClass(DecoctActivity.this, PourActivity.class);
-											DecoctActivity.this.startActivity(intent);
+                                            Intent intent = new Intent();
+                                            prescription.setProcess(Constants.POUR);
+                                            intent.putExtra("prescription", prescription);
+                                            intent.setClass(DecoctActivity.this, PourActivity.class);
+                                            DecoctActivity.this.startActivity(intent);
                                         } else {
                                             Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
                                         }
@@ -227,6 +237,56 @@ public class DecoctActivity extends WithProcessActivity {
                                 @Override
                                 public void onFailure(Call<AppResult> call, Throwable t) {
                                     Toast.makeText(ContextHolder.getContext(), "完成煎煮失败，请重试", Toast.LENGTH_LONG).show();
+                                    pd.dismiss();
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("取消", null).show();
+        }
+    }
+
+    private class MiddleClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long now = System.currentTimeMillis();
+            long begin = 0;
+            try {
+                begin = df.parse(presentProc.getBegin()).getTime();
+            } catch (ParseException e) {
+                Toast.makeText(ContextHolder.getContext(), "获取煎煮时间失败，请重试", Toast.LENGTH_LONG).show();
+                return;
+            }
+            new AlertDialog.Builder(DecoctActivity.this).setMessage("升温时长：" + Math.ceil((now - begin) / 1000 / 60.0) + "，确认开始保温？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            final ProgressDialog pd = ProgressDialog.show(DecoctActivity.this, "", "处理中...", true);
+
+                            ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+                            Call<AppResult> call = service.middle(presentProc.getId());
+                            call.enqueue(new Callback<AppResult>() {
+                                @Override
+                                public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+                                    if (response.isSuccessful()) {
+                                        AppResult result = response.body();
+                                        if (result.isSuccess()) {
+                                            Toast.makeText(ContextHolder.getContext(), "开始保温成功", Toast.LENGTH_LONG).show();
+                                            DecoctActivity.this.finish();
+                                            ContextHolder.setAlarm(prescription.getId(), Constants.getHeatTime(prescription.getClass_of_medicines()) - 5, "保温完成提醒", "煎煮机：" + presentProc.getMachine_name() + "接近完成保温过程，请查看并处理");
+                                        } else {
+                                            Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Toast.makeText(ContextHolder.getContext(), "开始保温失败，请重试", Toast.LENGTH_LONG).show();
+                                    }
+                                    pd.dismiss();
+                                }
+
+                                @Override
+                                public void onFailure(Call<AppResult> call, Throwable t) {
+                                    Toast.makeText(ContextHolder.getContext(), "开始保温失败，请重试", Toast.LENGTH_LONG).show();
                                     pd.dismiss();
                                 }
                             });

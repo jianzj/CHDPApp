@@ -60,19 +60,35 @@ public class ProcessHelper {
 
                     if (activity.presentProc.getProcess_type() == Constants.DECOCT) {
                         LinearLayout layoutDecoctTime = (LinearLayout) activity.findViewById(R.id.layout_decoct_time);
+                        LinearLayout layoutMiddleTime = (LinearLayout) activity.findViewById(R.id.layout_middle_time);
                         LinearLayout layoutDecoctMachine = (LinearLayout) activity.findViewById(R.id.layout_decoct_machine);
                         TextView txtDecoctTime = (TextView) activity.findViewById(R.id.txt_decoct_time);
+                        TextView txtMiddleTime = (TextView) activity.findViewById(R.id.txt_middle_time);
                         TextView txtDecoctMachine = (TextView) activity.findViewById(R.id.txt_decoct_machine);
                         Button btnDecoctStart = (Button) activity.findViewById(R.id.btn_decoct_start);
+                        Button btnMiddleStart = (Button) activity.findViewById(R.id.btn_decoct_middle);
                         Button btnDecoctFinish = (Button) activity.findViewById(R.id.btn_decoct_finish);
+                        Button btnDecoctCancel = (Button) activity.findViewById(R.id.btn_decoct_cancel);
 
-                        if (activity.presentProc.getBegin() != null) {
+                        if (activity.presentProc.getBegin() != null && activity.presentProc.getMiddle() != null) {
                             btnDecoctStart.setVisibility(View.GONE);
+                            btnMiddleStart.setVisibility(View.GONE);
+                            btnDecoctCancel.setVisibility(View.GONE);
+                            txtDecoctTime.setText(activity.presentProc.getBegin());
+                            txtMiddleTime.setText(activity.presentProc.getMiddle());
+                            txtDecoctMachine.setText(activity.presentProc.getMachine_name());
+                        } else if (activity.presentProc.getBegin() != null && activity.presentProc.getMiddle() == null) {
+                            btnDecoctStart.setVisibility(View.GONE);
+                            btnDecoctFinish.setVisibility(View.GONE);
+                            layoutMiddleTime.setVisibility(View.GONE);
+                            btnDecoctCancel.setVisibility(View.GONE);
                             txtDecoctTime.setText(activity.presentProc.getBegin());
                             txtDecoctMachine.setText(activity.presentProc.getMachine_name());
                         } else {
+                            btnMiddleStart.setVisibility(View.GONE);
                             btnDecoctFinish.setVisibility(View.GONE);
                             layoutDecoctTime.setVisibility(View.GONE);
+                            layoutMiddleTime.setVisibility(View.GONE);
                             layoutDecoctMachine.setVisibility(View.GONE);
                         }
 

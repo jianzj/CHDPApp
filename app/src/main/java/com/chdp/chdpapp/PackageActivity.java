@@ -117,7 +117,7 @@ public class PackageActivity extends WithProcessActivity {
     private class BackwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(PackageActivity.this).setMessage("确认退回清场？");
+            AlertDialog.Builder builder = new AlertDialog.Builder(PackageActivity.this).setMessage("确认j进行回退操作？");
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -129,7 +129,7 @@ public class PackageActivity extends WithProcessActivity {
                         reason += "数量不符 ";
 
                     ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
-                    Call<AppResult> call = service.packCancel(prescription.getId(), presentProc.getId(), reason.equals("") ? "未知原因" : reason);
+                    Call<AppResult> call = service.packCancel(prescription.getId(), presentProc.getId(), reason.equals("") ? "未知原因" : reason, previousProc.getMachine_id());
                     call.enqueue(new Callback<AppResult>() {
                         @Override
                         public void onResponse(Call<AppResult> call, Response<AppResult> response) {

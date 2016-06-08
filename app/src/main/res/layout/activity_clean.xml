@@ -63,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="退回灌装"
-                android:id="@+id/btn_clean_back" />
+                android:id="@+id/btn_clean_back"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 	
