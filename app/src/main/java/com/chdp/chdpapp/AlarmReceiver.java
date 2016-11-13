@@ -6,8 +6,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 
 import com.chdp.chdpapp.util.ContextHolder;
@@ -31,10 +31,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setAutoCancel(true);
         builder.setOngoing(true);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-        builder.setVibrate(new long[] {0,300,500,700});
-        builder.setLights(0xff0000ff, 300, 0);
-        builder.setSound(Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "5"));
+        builder.setDefaults(Notification.DEFAULT_ALL);
+        Uri ringURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        builder.setSound(ringURI);
+        builder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000, 1000});
         builder.setContentIntent(PendingIntent.getActivity(ContextHolder.getContext(), id, new Intent(ContextHolder.getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT));
         manager.notify(id, builder.build());
     }

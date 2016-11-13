@@ -23,4 +23,7 @@ public class WithProcessActivity extends ActionBarActivity {
         user = AuthHelper.checkUser(this);
         prescription = (Prescription) intent.getSerializableExtra("prescription");
     }
+
+    public void infoQueryCallback() {
+    }
 }

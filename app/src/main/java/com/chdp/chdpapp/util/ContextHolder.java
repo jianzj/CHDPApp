@@ -54,7 +54,7 @@ public class ContextHolder {
         i.putExtra("id", id);
         i.putExtra("title", title);
         i.putExtra("msg", msg);
-        PendingIntent pi = PendingIntent.getBroadcast(ApplicationContext, 0, i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(ApplicationContext, id, i, PendingIntent.FLAG_UPDATE_CURRENT);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
     }
 }

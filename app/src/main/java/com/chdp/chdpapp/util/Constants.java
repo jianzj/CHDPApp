@@ -23,11 +23,11 @@ public class Constants {
     public static int getHeatTime(int decoct_type) {
         switch (decoct_type) {
             case DECOCT_ONE:
-                return 20;
+                return 15;
             case DECOCT_TWO:
-                return 30;
+                return 25;
             case DECOCT_THREE:
-                return 40;
+                return 35;
             default:
                 return 30;
         }

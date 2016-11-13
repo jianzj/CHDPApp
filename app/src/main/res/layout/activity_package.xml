@@ -81,7 +81,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="退回清场"
+                android:text="回退处理"
                 android:id="@+id/btn_package_back" />
         </LinearLayout>
     </ScrollView>

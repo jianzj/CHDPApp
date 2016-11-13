@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.chdp.chdpapp.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,44 +27,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="com.chdp.chdpapp.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ScanActivity"
+            android:name="com.chdp.chdpapp.ScanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CheckActivity"
+            android:name="com.chdp.chdpapp.CheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MixActivity"
+            android:name="com.chdp.chdpapp.MixActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MixCheckActivity"
+            android:name="com.chdp.chdpapp.MixCheckActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SoakActivity"
+            android:name="com.chdp.chdpapp.SoakActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DecoctActivity"
+            android:name="com.chdp.chdpapp.DecoctActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PourActivity"
+            android:name="com.chdp.chdpapp.PourActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CleanActivity"
+            android:name="com.chdp.chdpapp.CleanActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PackageActivity"
+            android:name="com.chdp.chdpapp.PackageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShipActivity"
+            android:name="com.chdp.chdpapp.ShipActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChangePasswordActivity"
+            android:name="com.chdp.chdpapp.ChangePasswordActivity"
             android:screenOrientation="portrait" />
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name="com.chdp.chdpapp.AlarmReceiver"
             android:enabled="true"
             android:exported="true"></receiver>
     </application>

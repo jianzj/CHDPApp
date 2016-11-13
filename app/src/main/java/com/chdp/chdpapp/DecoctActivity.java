@@ -62,13 +62,13 @@ public class DecoctActivity extends WithProcessActivity {
         TextView txtParam = (TextView) findViewById(R.id.txt_param);
         if (prescription.getClass_of_medicines() == 1) {
             txtType.setText("解表或芳香类药");
-            txtParam.setText("温度110℃，压力<0.1MPa，保温时间20分钟");
+            txtParam.setText("温度110℃，压力<0.1MPa，保温时间15-20分钟");
         } else if (prescription.getClass_of_medicines() == 2) {
             txtType.setText("一般治疗药");
-            txtParam.setText("温度115℃，压力<0.1MPa，保温时间30分钟");
+            txtParam.setText("温度115℃，压力<0.1MPa，保温时间20-30分钟");
         } else if (prescription.getClass_of_medicines() == 3) {
             txtType.setText("调理滋补药");
-            txtParam.setText("温度120℃，压力<0.1MPa，保温时间40分钟");
+            txtParam.setText("温度120℃，压力<0.1MPa，保温时间30-40分钟");
         }
 
         LinearLayout layoutFirst = (LinearLayout) findViewById(R.id.layout_first);
@@ -145,7 +145,7 @@ public class DecoctActivity extends WithProcessActivity {
                                             AppResult result = response.body();
                                             if (result.isSuccess()) {
                                                 Toast.makeText(ContextHolder.getContext(), "开始煎煮成功", Toast.LENGTH_LONG).show();
-                                                ContextHolder.setAlarm(prescription.getId(), 8, "升温完成提醒", "煎煮机：" + machine.getName() + "接近完成升温过程，请查看并处理");
+                                                ContextHolder.setAlarm(prescription.getId(), 1, "升温完成提醒", "煎煮机：" + machine.getName() + "接近完成升温过程，请查看并处理");
                                                 DecoctActivity.this.finish();
                                             } else {
                                                 Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
@@ -274,7 +274,7 @@ public class DecoctActivity extends WithProcessActivity {
                                         if (result.isSuccess()) {
                                             Toast.makeText(ContextHolder.getContext(), "开始保温成功", Toast.LENGTH_LONG).show();
                                             DecoctActivity.this.finish();
-                                            ContextHolder.setAlarm(prescription.getId(), Constants.getHeatTime(prescription.getClass_of_medicines()) - 5, "保温完成提醒", "煎煮机：" + presentProc.getMachine_name() + "接近完成保温过程，请查看并处理");
+                                            ContextHolder.setAlarm(prescription.getId(), Constants.getHeatTime(prescription.getClass_of_medicines()), "保温完成提醒", "煎煮机：" + presentProc.getMachine_name() + "接近完成保温过程，请查看并处理");
                                         } else {
                                             Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
                                         }

@@ -143,6 +143,7 @@ public class ProcessHelper {
                     } else {
                         pd.dismiss();
                     }
+                    activity.infoQueryCallback();
                 } else {
                     Toast.makeText(ContextHolder.getContext(), "获取流程信息失败", Toast.LENGTH_LONG).show();
                     activity.finish();

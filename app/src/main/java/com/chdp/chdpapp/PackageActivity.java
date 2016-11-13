@@ -117,7 +117,7 @@ public class PackageActivity extends WithProcessActivity {
     private class BackwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(PackageActivity.this).setMessage("确认j进行回退操作？");
+            AlertDialog.Builder builder = new AlertDialog.Builder(PackageActivity.this).setMessage("确认进行回退操作？");
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -129,27 +129,27 @@ public class PackageActivity extends WithProcessActivity {
                         reason += "数量不符 ";
 
                     ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
-                    Call<AppResult> call = service.packCancel(prescription.getId(), presentProc.getId(), reason.equals("") ? "未知原因" : reason, previousProc.getMachine_id());
+                    Call<AppResult> call = service.packCancel(prescription.getId(), presentProc.getId(), reason.equals("") ? "未知原因" : reason);
                     call.enqueue(new Callback<AppResult>() {
                         @Override
                         public void onResponse(Call<AppResult> call, Response<AppResult> response) {
                             if (response.isSuccessful()) {
                                 AppResult result = response.body();
                                 if (result.isSuccess()) {
-                                    Toast.makeText(ContextHolder.getContext(), "退回清场成功", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ContextHolder.getContext(), "回退操作成功", Toast.LENGTH_LONG).show();
                                     PackageActivity.this.finish();
                                 } else {
                                     Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
                                 }
                             } else {
-                                Toast.makeText(ContextHolder.getContext(), "退回清场失败，请重试", Toast.LENGTH_LONG).show();
+                                Toast.makeText(ContextHolder.getContext(), "回退操作失败，请重试", Toast.LENGTH_LONG).show();
                             }
                             pd.dismiss();
                         }
 
                         @Override
                         public void onFailure(Call<AppResult> call, Throwable t) {
-                            Toast.makeText(ContextHolder.getContext(), "退回清场失败，请重试", Toast.LENGTH_LONG).show();
+                            Toast.makeText(ContextHolder.getContext(), "回退操作失败，请重试", Toast.LENGTH_LONG).show();
                             pd.dismiss();
                         }
                     });

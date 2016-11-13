@@ -40,6 +40,37 @@ public class SoakActivity extends WithProcessActivity {
         btnSoakCancel.setOnClickListener(new BackwardClickListener());
     }
 
+    @Override
+    public void infoQueryCallback() {
+        final ProgressDialog pd = ProgressDialog.show(SoakActivity.this, "", "处理中...", true);
+
+        ProcessService service = ServiceGenerator.create(ProcessService.class, user.getSession_id());
+        Call<AppResult> call = service.soak(prescription.getId(), presentProc.getId());
+        call.enqueue(new Callback<AppResult>() {
+            @Override
+            public void onResponse(Call<AppResult> call, Response<AppResult> response) {
+                if (response.isSuccessful()) {
+                    AppResult result = response.body();
+                    if (result.isSuccess()) {
+                        Toast.makeText(ContextHolder.getContext(), "开始浸泡成功，请三十分钟后开始煎煮", Toast.LENGTH_LONG).show();
+                        SoakActivity.this.finish();
+                    } else {
+                        Toast.makeText(ContextHolder.getContext(), result.getErrorMsg() + "请重试", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(ContextHolder.getContext(), "开始浸泡失败，请重试", Toast.LENGTH_LONG).show();
+                }
+                pd.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<AppResult> call, Throwable t) {
+                Toast.makeText(ContextHolder.getContext(), "开始浸泡失败，请重试", Toast.LENGTH_LONG).show();
+                pd.dismiss();
+            }
+        });
+    }
+
     private class ForwardClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
